@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">LoftCoin</string>
+
+    <string name="loftcoin" translatable="false">LoftCoin</string>
+    <string name="welcome_title_1">Purchase and sale</string>
+    <string name="welcome_title_2">Rate of cryptocurrencies</string>
+    <string name="welcome_title_3">Currency converter</string>
+    <string name="welcome_subtitle_1">Buy when it is cheap, sell when it is expensive.</string>
+    <string name="welcome_subtitle_2">Watch exchange rate and in time react to changes of dynamics of the price.</string>
+    <string name="welcome_subtitle_3">Learn how many Ethereum in 1:23 Bitcoins.</string>
+    <string name="welcome_start_btn">Start</string>
+
+</resources>
