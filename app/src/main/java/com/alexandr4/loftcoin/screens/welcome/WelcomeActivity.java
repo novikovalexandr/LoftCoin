@@ -29,7 +29,6 @@ public class WelcomeActivity extends AppCompatActivity {
         context.startActivity(starter);
     }
 
-
     @BindView(R.id.pager)
     ViewPager pager;
 
@@ -50,11 +49,8 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 prefs.setFirstLaunch(false);
-                //StartActivity.startInNewTask(WelcomeActivity.this);
                 StartActivity.startInNewTask(WelcomeActivity.this);
             }
         });
-
-
     }
 }

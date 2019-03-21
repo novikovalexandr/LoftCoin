@@ -9,5 +9,7 @@
     <string name="welcome_subtitle_2">Watch exchange rate and in time react to changes of dynamics of the price.</string>
     <string name="welcome_subtitle_3">Learn how many Ethereum in 1:23 Bitcoins.</string>
     <string name="welcome_start_btn">Start</string>
+    <string name="analysis_currencies">Analysis of currencies</string>
+    <string name="target_audience">The application is created for cool dudes, created for cool dudes, cool dudes.</string>
 
 </resources>

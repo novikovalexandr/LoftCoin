@@ -29,8 +29,8 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/icon"
-        tools:text="Анализ валют" />
+        app:layout_constraintTop_toBottomOf="@id/icon"
+        tools:text="@string/analysis_currencies" />
 
     <TextView
         android:id="@+id/subtitle"
@@ -45,6 +45,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        tools:text="Приложение создано для крутых чуваков, создано для крутых чуваков, крутых чуваков." />
+        tools:text="@string/target_audience" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
