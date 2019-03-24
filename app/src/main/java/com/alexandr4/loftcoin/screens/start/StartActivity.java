@@ -32,6 +32,11 @@ public class StartActivity extends AppCompatActivity implements StartView {
         context.startActivity(starter);
     }
 
+    @Override
+    public void navigateToMainScreen() {
+        MainActivity.start(this);
+    }
+
     @BindView(R.id.start_top_corner)
     ImageView topCorner;
 
@@ -39,7 +44,6 @@ public class StartActivity extends AppCompatActivity implements StartView {
     ImageView bottomCorner;
 
     private StartPresenter presenter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,20 +70,20 @@ public class StartActivity extends AppCompatActivity implements StartView {
         super.onDestroy();
     }
 
-    @Override
-    public void navigateToMainScreen() {
-        MainActivity.start(this);
-    }
-
     private void startAnimations() {
-        ObjectAnimator innerAnimator = ObjectAnimator.ofFloat(topCorner, "rotation", 0, 360);
-        innerAnimator.setDuration(30000);
+
+        short angleStart = 0;
+        short angleEnd = 360;
+        short speedAnimation = 30000;
+
+        ObjectAnimator innerAnimator = ObjectAnimator.ofFloat(topCorner, "rotation", angleStart, angleEnd);
+        innerAnimator.setDuration(speedAnimation);
         innerAnimator.setRepeatMode(ValueAnimator.RESTART);
         innerAnimator.setRepeatCount(ValueAnimator.INFINITE);
         innerAnimator.setInterpolator(new LinearInterpolator());
 
-        ObjectAnimator outerAnimator = ObjectAnimator.ofFloat(bottomCorner, "rotation", 0, -360);
-        outerAnimator.setDuration(60000);
+        ObjectAnimator outerAnimator = ObjectAnimator.ofFloat(bottomCorner, "rotation", angleStart, -angleEnd);
+        outerAnimator.setDuration(speedAnimation * 2);
         outerAnimator.setRepeatMode(ValueAnimator.RESTART);
         outerAnimator.setRepeatCount(ValueAnimator.INFINITE);
         outerAnimator.setInterpolator(new LinearInterpolator());

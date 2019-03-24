@@ -36,12 +36,6 @@ public class WelcomePage implements Parcelable {
         return subtitle;
     }
 
-    protected WelcomePage(Parcel in) {
-        icon = in.readInt();
-        title = in.readInt();
-        subtitle = in.readInt();
-    }
-
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(icon);
@@ -66,7 +60,11 @@ public class WelcomePage implements Parcelable {
         }
     };
 
-
+    protected WelcomePage(Parcel in) {
+        icon = in.readInt();
+        title = in.readInt();
+        subtitle = in.readInt();
+    }
 }
 
 

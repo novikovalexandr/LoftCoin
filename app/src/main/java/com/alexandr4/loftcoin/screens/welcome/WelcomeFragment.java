@@ -46,14 +46,12 @@ public class WelcomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_welcom, container, false);
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -71,7 +69,5 @@ public class WelcomeFragment extends Fragment {
                 subtitle.setText(page.getSubtitle());
             }
         }
-
     }
-
 }
