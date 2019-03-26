@@ -12,4 +12,12 @@
     <string name="analysis_currencies">Analysis of currencies</string>
     <string name="target_audience">The application is created for cool dudes, created for cool dudes, cool dudes.</string>
 
+    <string name="main_bottom_navigation_item_accounts">Wallets</string>
+    <string name="main_bottom_navigation_item_rate">Rate</string>
+    <string name="main_bottom_navigation_item_converter">Converter</string>
+
+    <string name="rate_screen_title">Rate of cryptocurrencies</string>
+    <string name="rate_menu_item_sort">Sorting</string>
+    <string name="rate_menu_item_currency">Currency</string>
+
 </resources>

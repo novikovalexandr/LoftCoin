@@ -21,5 +21,5 @@ public class Coin {
     @SerializedName("last_updated")
     public String lastUpdate;
 
-    public Map<String, Quote> quotes;
+    public Map<String, Quote> quote;
 }
