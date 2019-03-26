@@ -17,10 +17,6 @@ public class PrefsImpl implements Prefs {
         this.context = context;
     }
 
-    private SharedPreferences getSharedPreferences() {
-        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-    }
-
     @Override
     public boolean isFirstLaunch() {
         return getSharedPreferences().getBoolean(KEY_FIRST_LAUNCH, true);
@@ -42,5 +38,9 @@ public class PrefsImpl implements Prefs {
         getSharedPreferences().edit()
                 .putString(KEY_FIAT_CURRENCY, fiat.name())
                 .apply();
+    }
+
+    private SharedPreferences getSharedPreferences() {
+        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 }
