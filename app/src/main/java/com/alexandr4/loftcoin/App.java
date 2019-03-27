@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.alexandr4.loftcoin.data.api.Api;
 import com.alexandr4.loftcoin.data.api.ApiInitializer;
+import com.alexandr4.loftcoin.data.db.Database;
+import com.alexandr4.loftcoin.data.db.DatabaseInitializer;
 import com.alexandr4.loftcoin.data.prefs.Prefs;
 import com.alexandr4.loftcoin.data.prefs.PrefsImpl;
 
@@ -13,6 +15,7 @@ public class App extends Application {
 
     private Prefs prefs;
     private Api api;
+    private Database database;
 
     @Override
     public void onCreate() {
@@ -20,6 +23,7 @@ public class App extends Application {
         Timber.plant(new Timber.DebugTree());
         prefs = new PrefsImpl(this);
         api = new ApiInitializer().init();
+        database = new DatabaseInitializer().init(this);
     }
 
     public Prefs getPrefs() {
@@ -28,5 +32,9 @@ public class App extends Application {
 
     public Api getApi() {
         return api;
+    }
+
+    public Database getDatabase() {
+        return database;
     }
 }
