@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Coin {
 
-    @SerializedName("website_slug")
+    @SerializedName("id")
     public int id;
 
     @SerializedName("name")
@@ -21,5 +21,6 @@ public class Coin {
     @SerializedName("last_updated")
     public String lastUpdate;
 
+    @SerializedName("quote")
     public Map<String, Quote> quote;
 }
