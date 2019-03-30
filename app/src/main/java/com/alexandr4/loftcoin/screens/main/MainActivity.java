@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigation.setOnNavigationItemSelectedListener(navigationListener);
         bottomNavigation.setOnNavigationItemReselectedListener(menuItem -> {
-
         });
     }
 
@@ -51,14 +50,6 @@ public class MainActivity extends AppCompatActivity {
         return false;
     };
 
-//        private void showWalletsFragment() {
-//        WalletsFragment fragment = new WalletsFragment();
-//        FragmentManager fm = getSupportFragmentManager();
-//        FragmentTransaction transaction = fm.beginTransaction();
-//        transaction.replace(R.id.fragment_container, fragment);
-//        transaction.commit();
-//    }
-
     private void showRateFragment() {
         RateFragment fragment = new RateFragment();
         FragmentManager fm = getSupportFragmentManager();
@@ -66,13 +57,4 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
     }
-
-//    private void showConverterFragment() {
-//        ConverterFragment fragment = new ConverterFragment();
-//        FragmentManager fm = getSupportFragmentManager();
-//        FragmentTransaction transaction = fm.beginTransaction();
-//        transaction.replace(R.id.fragment_container, fragment);
-//        transaction.commit();
-//    }
-
 }

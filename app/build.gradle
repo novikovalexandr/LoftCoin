@@ -23,6 +23,12 @@ android {
     }
 }
 
+
+
+repositories {
+    maven { url "https://kotlin.bintray.com/kotlinx/" }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha03'
@@ -40,4 +46,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha02'
     implementation 'com.romandanylyk:pageindicatorview:1.0.3@aar'
     implementation 'com.google.android.material:material:1.0.0'
+    implementation "androidx.room:room-runtime:2.1.0-alpha06"
+    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha06"
 }

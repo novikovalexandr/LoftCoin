@@ -10,7 +10,10 @@ import android.view.ViewGroup;
 import com.alexandr4.loftcoin.App;
 import com.alexandr4.loftcoin.R;
 import com.alexandr4.loftcoin.data.api.Api;
-import com.alexandr4.loftcoin.data.api.model.Coin;
+import com.alexandr4.loftcoin.data.db.Database;
+import com.alexandr4.loftcoin.data.db.model.CoinEntity;
+import com.alexandr4.loftcoin.data.db.model.CoinEntityMapper;
+import com.alexandr4.loftcoin.data.db.model.CoinEntityMapperImpl;
 import com.alexandr4.loftcoin.data.prefs.Prefs;
 
 import java.util.List;
@@ -62,7 +65,10 @@ public class RateFragment extends Fragment implements RateView {
         Api api = ((App) getActivity().getApplication()).getApi();
         Prefs prefs = ((App) getActivity().getApplication()).getPrefs();
 
-        presenter = new RatePresenterImpl(prefs, api);
+        Database database = ((App) getActivity().getApplication()).getDatabase();
+        CoinEntityMapper mapper = new CoinEntityMapperImpl();
+
+        presenter = new RatePresenterImpl(prefs, api, database, mapper);
         adapter = new RateAdapter(prefs);
     }
 
@@ -90,7 +96,7 @@ public class RateFragment extends Fragment implements RateView {
     }
 
     @Override
-    public void setCoins(List<Coin> coins) {
+    public void setCoins(List<CoinEntity> coins) {
         adapter.setItems(coins);
     }
 
