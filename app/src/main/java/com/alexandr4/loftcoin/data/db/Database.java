@@ -1,6 +1,8 @@
 package com.alexandr4.loftcoin.data.db;
 
 import com.alexandr4.loftcoin.data.db.model.CoinEntity;
+import com.alexandr4.loftcoin.data.db.model.Wallet;
+import com.alexandr4.loftcoin.data.db.model.WalletModel;
 
 import java.util.List;
 
@@ -10,4 +12,10 @@ public interface Database {
     void saveCoins(List<CoinEntity> coins);
 
     Flowable<List<CoinEntity>> getCoins();
+
+    CoinEntity getCoin(String symbol);
+
+    void saveWallet(Wallet wallet);
+
+    Flowable<List<WalletModel>> getWallets();
 }

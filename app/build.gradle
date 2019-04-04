@@ -23,6 +23,7 @@ android {
     }
 }
 
+
 repositories{
     maven { url "https://kotlin.bintray.com/kotlinx/" }
 }
@@ -50,4 +51,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
     implementation "androidx.room:room-rxjava2:2.1.0-alpha06"
+    implementation 'com.jakewharton.rxbinding3:rxbinding-appcompat:3.0.0-alpha2'
+    implementation 'com.jakewharton.rxbinding3:rxbinding-material:3.0.0-alpha2'
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 }
