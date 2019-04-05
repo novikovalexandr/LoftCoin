@@ -1,3 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="item_wallet_width">240dp</dimen>
+    <dimen name="item_wallet_margin">20dp</dimen>
 </resources>

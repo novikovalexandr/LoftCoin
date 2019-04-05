@@ -2,6 +2,8 @@ package com.alexandr4.loftcoin.data.db.room;
 
 import com.alexandr4.loftcoin.data.db.Database;
 import com.alexandr4.loftcoin.data.db.model.CoinEntity;
+import com.alexandr4.loftcoin.data.db.model.Wallet;
+import com.alexandr4.loftcoin.data.db.model.WalletModel;
 
 import java.util.List;
 
@@ -23,5 +25,20 @@ public class DatabaseImplRoom implements Database {
     @Override
     public Flowable<List<CoinEntity>> getCoins() {
         return appDatabase.coinDao().getCoins();
+    }
+
+    @Override
+    public CoinEntity getCoin(String symbol) {
+        return appDatabase.coinDao().getCoin(symbol);
+    }
+
+    @Override
+    public void saveWallet(Wallet wallet) {
+        appDatabase.walletDao().saveWallet(wallet);
+    }
+
+    @Override
+    public Flowable<List<WalletModel>> getWallets() {
+        return appDatabase.walletDao().getWallets();
     }
 }
