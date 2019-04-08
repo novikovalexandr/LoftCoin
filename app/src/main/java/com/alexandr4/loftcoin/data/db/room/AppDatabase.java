@@ -6,7 +6,7 @@ import com.alexandr4.loftcoin.data.db.model.Wallet;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {CoinEntity.class, Wallet.class}, version = 2)
+@Database(entities = {CoinEntity.class, Wallet.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract CoinDao coinDao();
 

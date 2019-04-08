@@ -1,6 +1,5 @@
 package com.alexandr4.loftcoin.screens.wallets;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +26,6 @@ import butterknife.ButterKnife;
 
 public class WalletsPagerAdapter extends PagerAdapter {
 
-    private static final String TAG = "WalletsPagerAdapter";
-
     private List<WalletModel> wallets = Collections.emptyList();
 
     private Prefs prefs;
@@ -54,7 +51,6 @@ public class WalletsPagerAdapter extends PagerAdapter {
 
         WalletViewHolder viewHolder = new WalletViewHolder(v, prefs);
         viewHolder.bind(wallets.get(position));
-
         container.addView(v);
         return v;
     }
@@ -74,7 +70,6 @@ public class WalletsPagerAdapter extends PagerAdapter {
         @BindView(R.id.symbol_text)
         TextView symbolText;
 
-
         @BindView(R.id.currency)
         TextView currency;
 
@@ -87,8 +82,6 @@ public class WalletsPagerAdapter extends PagerAdapter {
         private Random random = new Random();
 
         private CurrencyFormatter currencyFormatter = new CurrencyFormatter();
-
-        private Context context;
 
         private Prefs prefs;
 

@@ -3,6 +3,7 @@ package com.alexandr4.loftcoin.screens.wallets;
 import android.app.Application;
 
 import com.alexandr4.loftcoin.data.db.model.CoinEntity;
+import com.alexandr4.loftcoin.data.db.model.TransactionModel;
 import com.alexandr4.loftcoin.data.db.model.WalletModel;
 
 import java.util.List;
@@ -25,9 +26,13 @@ abstract class WalletsViewModel extends AndroidViewModel {
 
     public abstract LiveData<List<WalletModel>> wallets();
 
+    public abstract LiveData<List<TransactionModel>> transactions();
+
     abstract void getWallets();
 
     abstract void onNewWalletClick();
 
     abstract void onCurrencySelected(CoinEntity coinEntity);
+
+    abstract void onWalletChanged(int position);
 }
