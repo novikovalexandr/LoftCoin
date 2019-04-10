@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
@@ -46,6 +47,7 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
 
     private WalletsPagerAdapter walletsPagerAdapter;
     private WalletsViewModel viewModel;
+    private TransactionsAdapter transactionsAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
         viewModel = ViewModelProviders.of(this).get(WalletsViewModelImpl.class);
         Prefs prefs = ((App) getActivity().getApplication()).getPrefs();
         walletsPagerAdapter = new WalletsPagerAdapter(prefs);
+        transactionsAdapter = new TransactionsAdapter(prefs);
     }
 
     @Override
@@ -72,13 +75,18 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
         toolbar.setTitle(R.string.wallets_screen_title);
         toolbar.inflateMenu(R.menu.menu_wallets);
 
+        transactionsRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
+        transactionsRecycler.setHasFixedSize(true);
+        transactionsRecycler.setAdapter(transactionsAdapter);
+
         int screenWidth = getScreenWidth();
         int walletItemWidth = getResources().getDimensionPixelOffset(R.dimen.item_wallet_width);
         int walletItemMargin = getResources().getDimensionPixelOffset(R.dimen.item_wallet_margin);
         int pageMargin = (screenWidth - walletItemWidth) - walletItemMargin;
+        int offScreenPage = 5;
 
         walletsPager.setPageMargin(-pageMargin);
-        walletsPager.setOffscreenPageLimit(5);
+        walletsPager.setOffscreenPageLimit(offScreenPage);
         walletsPager.setAdapter(walletsPagerAdapter);
 
         Fragment bottomSheet = getFragmentManager().findFragmentByTag(CurrenciesBottomSheet.TAG);
@@ -104,6 +112,13 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
             viewModel.onNewWalletClick();
             return true;
         });
+
+        walletsPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                viewModel.onWalletChanged(position);
+            }
+        });
     }
 
     private void initInputs() {
@@ -119,6 +134,8 @@ public class WalletsFragment extends Fragment implements CurrenciesBottomSheetLi
         );
 
         viewModel.wallets().observe(this, wallets -> walletsPagerAdapter.setWallets(wallets));
+
+        viewModel.transactions().observe(this, transactionModels -> transactionsAdapter.setTransactions(transactionModels));
     }
 
     private void showCurrenciesBottomSheet() {
