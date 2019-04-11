@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -36,10 +35,10 @@ public class CurrenciesBottomSheet extends BottomSheetDialogFragment implements 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         database = ((App) getActivity().getApplication()).getDatabase();
         adapter = new CurrenciesAdapter();
         adapter.setListener(this);
+        database.open();
     }
 
     @Nullable
@@ -58,7 +57,6 @@ public class CurrenciesBottomSheet extends BottomSheetDialogFragment implements 
         recycler.setAdapter(adapter);
 
         Disposable disposable = database.getCoins()
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         coins -> adapter.setCoins(coins)
                 );
@@ -69,6 +67,7 @@ public class CurrenciesBottomSheet extends BottomSheetDialogFragment implements 
     @Override
     public void onDestroy() {
         disposables.clear();
+        database.close();
         super.onDestroy();
     }
 

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.alexandr4.loftcoin.R;
 import com.alexandr4.loftcoin.data.db.model.QuoteEntity;
-import com.alexandr4.loftcoin.data.db.model.WalletModel;
+import com.alexandr4.loftcoin.data.db.model.Wallet;
 import com.alexandr4.loftcoin.data.prefs.Prefs;
 import com.alexandr4.loftcoin.utils.CurrencyFormatter;
 import com.alexandr4.loftcoin.utils.Fiat;
@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
 
 public class WalletsPagerAdapter extends PagerAdapter {
 
-    private List<WalletModel> wallets = Collections.emptyList();
+    private List<Wallet> wallets = Collections.emptyList();
 
     private Prefs prefs;
 
@@ -34,7 +34,7 @@ public class WalletsPagerAdapter extends PagerAdapter {
         this.prefs = prefs;
     }
 
-    public void setWallets(List<WalletModel> wallets) {
+    public void setWallets(List<Wallet> wallets) {
         this.wallets = wallets;
         notifyDataSetChanged();
     }
@@ -100,18 +100,18 @@ public class WalletsPagerAdapter extends PagerAdapter {
             this.prefs = prefs;
         }
 
-        void bind(WalletModel model) {
+        void bind(Wallet model) {
             bindCurrency(model);
             bindSymbol(model);
             bindPrimaryAmount(model);
             bindSecondaryAmount(model);
         }
 
-        private void bindCurrency(WalletModel model) {
+        private void bindCurrency(Wallet model) {
             currency.setText(model.coin.symbol);
         }
 
-        private void bindSymbol(WalletModel model) {
+        private void bindSymbol(Wallet model) {
             symbolText.setVisibility(View.VISIBLE);
 
             Drawable background = symbolText.getBackground();
@@ -121,17 +121,17 @@ public class WalletsPagerAdapter extends PagerAdapter {
             symbolText.setText(String.valueOf(model.coin.symbol.charAt(0)));
         }
 
-        private void bindPrimaryAmount(WalletModel model) {
-            String value = currencyFormatter.format(model.wallet.amount, true);
-            primaryAmount.setText(itemView.getContext().getString(R.string.currency_amount, value, model.coin.symbol));
+        private void bindPrimaryAmount(Wallet wallet) {
+            String value = currencyFormatter.format(wallet.amount, true);
+            primaryAmount.setText(itemView.getContext().getString(R.string.currency_amount, value, wallet.coin.symbol));
         }
 
-        private void bindSecondaryAmount(WalletModel model) {
+        private void bindSecondaryAmount(Wallet wallet) {
 
             Fiat fiat = prefs.getFiatCurrency();
-            QuoteEntity quote = model.coin.getQuote(fiat);
+            QuoteEntity quote = wallet.coin.getQuote(fiat);
 
-            double amount = model.wallet.amount * quote.price;
+            double amount = wallet.amount * quote.price;
             String value = currencyFormatter.format(amount, false);
 
             secondaryAmount.setText(itemView.getContext().getString(R.string.currency_amount, value, fiat.symbol));

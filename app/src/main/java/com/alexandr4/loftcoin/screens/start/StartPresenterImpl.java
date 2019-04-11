@@ -3,7 +3,6 @@ package com.alexandr4.loftcoin.screens.start;
 import com.alexandr4.loftcoin.data.api.Api;
 import com.alexandr4.loftcoin.data.api.model.Coin;
 import com.alexandr4.loftcoin.data.db.Database;
-import com.alexandr4.loftcoin.data.db.model.CoinEntity;
 import com.alexandr4.loftcoin.data.db.model.CoinEntityMapper;
 import com.alexandr4.loftcoin.data.prefs.Prefs;
 
@@ -37,6 +36,7 @@ public class StartPresenterImpl implements StartPresenter {
     @Override
     public void attachView(StartView view) {
         this.view = view;
+
     }
 
     @Override
@@ -52,10 +52,13 @@ public class StartPresenterImpl implements StartPresenter {
                 .subscribeOn(Schedulers.io())
                 .map(rateResponse -> {
                     List<Coin> coins = rateResponse.data;
-                    List<CoinEntity> coinEntities = coinEntityMapper.map(coins);
-                    return coinEntities;
+                    return coinEntityMapper.map(coins);
                 })
-                .doOnNext(coinEntities -> database.saveCoins(coinEntities))
+                .doOnNext(coinEntities -> {
+                    database.open();
+                    database.saveCoins(coinEntities);
+                    database.close();
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         coinEntities -> {
