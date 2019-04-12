@@ -1,6 +1,5 @@
 package com.alexandr4.loftcoin.screens.converter;
 
-
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -112,6 +111,7 @@ public class ConverterFragment extends Fragment {
     @Override
     public void onDestroyView() {
         disposables.dispose();
+        viewModel.onDetach();
         super.onDestroyView();
     }
 
