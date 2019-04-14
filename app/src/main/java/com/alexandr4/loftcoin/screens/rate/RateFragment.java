@@ -17,6 +17,8 @@ import com.alexandr4.loftcoin.data.db.model.CoinEntityMapper;
 import com.alexandr4.loftcoin.data.db.model.CoinEntityMapperImpl;
 import com.alexandr4.loftcoin.data.prefs.Prefs;
 import com.alexandr4.loftcoin.utils.Fiat;
+import com.alexandr4.loftcoin.work.WorkHelper;
+import com.alexandr4.loftcoin.work.WorkHelperImpl;
 
 import java.util.List;
 
@@ -34,7 +36,11 @@ import timber.log.Timber;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RateFragment extends Fragment implements RateView, Toolbar.OnMenuItemClickListener, CurrencyDialog.CurrencyDialogListener {
+public class RateFragment extends Fragment implements
+        RateView,
+        Toolbar.OnMenuItemClickListener,
+        CurrencyDialog.CurrencyDialogListener,
+        RateAdapter.Listener {
 
     private static final String LAYOUT_MANAGER_STATE = "layout_manager_state";
 
@@ -64,7 +70,6 @@ public class RateFragment extends Fragment implements RateView, Toolbar.OnMenuIt
         super.onCreate(savedInstanceState);
 
         Activity activity = getActivity();
-
         if (activity == null) {
             return;
         }
@@ -74,9 +79,11 @@ public class RateFragment extends Fragment implements RateView, Toolbar.OnMenuIt
         Database mainDatabase = ((App) getActivity().getApplication()).getDatabase();
         Database workerDatabase = ((App) getActivity().getApplication()).getDatabase();
         CoinEntityMapper mapper = new CoinEntityMapperImpl();
+        WorkHelper workHelper = new WorkHelperImpl();
 
-        presenter = new RatePresenterImpl(prefs, api, mainDatabase, workerDatabase, mapper);
+        presenter = new RatePresenterImpl(prefs, api, mainDatabase, workerDatabase, mapper, workHelper);
         adapter = new RateAdapter(prefs);
+        adapter.setListener(this);
     }
 
     @Override
@@ -165,5 +172,10 @@ public class RateFragment extends Fragment implements RateView, Toolbar.OnMenuIt
     @Override
     public void invalidateRates() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRateLongClick(String symbol) {
+        presenter.onRateLongClick(symbol);
     }
 }

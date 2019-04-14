@@ -130,7 +130,7 @@ public class ConverterViewModelImpl implements ConverterViewModel {
 
     private void convert() {
 
-        if (sourceAmountValue.isEmpty()) {
+        if (sourceAmountValue.isEmpty() || sourceAmountValue.charAt(0) == '.') {
             destinationAmount.onNext("");
             return;
         }
