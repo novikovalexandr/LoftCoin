@@ -11,7 +11,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiInitializer {
-    public static final String BASE_URL = "https://sandbox-api.coinmarketcap.com/v1/";
+    public static final String BASE_URL = "https://pro-api.coinmarketcap.com/v1/";
 
     public Api init() {
         Gson gson = createGson();

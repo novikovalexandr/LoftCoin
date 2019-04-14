@@ -6,6 +6,7 @@ import com.alexandr4.loftcoin.data.db.Database;
 import com.alexandr4.loftcoin.data.db.model.CoinEntityMapper;
 import com.alexandr4.loftcoin.data.prefs.Prefs;
 import com.alexandr4.loftcoin.utils.Fiat;
+import com.alexandr4.loftcoin.work.WorkHelper;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class RatePresenterImpl implements RatePresenter {
     private Database workerDatabase;
     private CoinEntityMapper coinEntityMapper;
     private CompositeDisposable disposables = new CompositeDisposable();
+    private WorkHelper workHelper;
 
     @Nullable
     private RateView view;
@@ -32,12 +34,13 @@ public class RatePresenterImpl implements RatePresenter {
                              Api api,
                              Database mainDatabase,
                              Database workerDatabase,
-                             CoinEntityMapper coinEntityMapper) {
+                             CoinEntityMapper coinEntityMapper, WorkHelper workHelper) {
         this.prefs = prefs;
         this.api = api;
         this.mainDatabase = mainDatabase;
         this.workerDatabase = workerDatabase;
         this.coinEntityMapper = coinEntityMapper;
+        this.workHelper = workHelper;
     }
 
     @Override
@@ -115,5 +118,11 @@ public class RatePresenterImpl implements RatePresenter {
                         }
                 );
         disposables.add(disposable);
+    }
+
+    @Override
+    public void onRateLongClick(String symbol) {
+        Timber.d("onRateLongClick: symbol = %s", symbol);
+        workHelper.startSyncRateWorker(symbol);
     }
 }
