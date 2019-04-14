@@ -129,9 +129,7 @@ public class RateAdapter extends RecyclerView.Adapter<RateAdapter.RateViewHolder
 
             Fiat fiat = prefs.getFiatCurrency();
             QuoteEntity quote = coin.getQuote(fiat);
-
             double percentChangeValue = quote.percentChange24h;
-
             percentChange.setText(context.getString(R.string.rate_item_percent_change, percentChangeValue));
 
             if (percentChangeValue >= 0) {

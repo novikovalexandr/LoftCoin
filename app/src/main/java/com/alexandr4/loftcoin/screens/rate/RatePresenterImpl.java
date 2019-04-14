@@ -3,6 +3,7 @@ package com.alexandr4.loftcoin.screens.rate;
 import com.alexandr4.loftcoin.data.api.Api;
 import com.alexandr4.loftcoin.data.api.model.Coin;
 import com.alexandr4.loftcoin.data.db.Database;
+import com.alexandr4.loftcoin.data.db.model.CoinEntity;
 import com.alexandr4.loftcoin.data.db.model.CoinEntityMapper;
 import com.alexandr4.loftcoin.data.prefs.Prefs;
 import com.alexandr4.loftcoin.utils.Fiat;
@@ -24,17 +25,20 @@ public class RatePresenterImpl implements RatePresenter {
     private Database mainDatabase;
     private Database workerDatabase;
     private CoinEntityMapper coinEntityMapper;
-    private CompositeDisposable disposables = new CompositeDisposable();
     private WorkHelper workHelper;
 
     @Nullable
     private RateView view;
 
+    private CompositeDisposable disposables = new CompositeDisposable();
+
     public RatePresenterImpl(Prefs prefs,
                              Api api,
                              Database mainDatabase,
                              Database workerDatabase,
-                             CoinEntityMapper coinEntityMapper, WorkHelper workHelper) {
+                             CoinEntityMapper coinEntityMapper,
+                             WorkHelper workHelper) {
+
         this.prefs = prefs;
         this.api = api;
         this.mainDatabase = mainDatabase;
@@ -58,6 +62,7 @@ public class RatePresenterImpl implements RatePresenter {
 
     @Override
     public void getRate() {
+
         Disposable disposable = mainDatabase.getCoins()
                 .subscribe(coinEntities -> {
                     if (view != null) {
@@ -83,18 +88,25 @@ public class RatePresenterImpl implements RatePresenter {
     @Override
     public void onFiatCurrencySelected(Fiat currency) {
         prefs.setFiatCurrency(currency);
-
         if (view != null) {
             view.invalidateRates();
         }
     }
 
+    @Override
+    public void onRateLongClick(String symbol) {
+        Timber.d("onRateLongClick: symbol = %s", symbol);
+        workHelper.startSyncRateWorker(symbol);
+    }
+
     private void loadRate() {
+
         Disposable disposable = api.rates(Api.CONVERT)
                 .subscribeOn(Schedulers.io())
                 .map(rateResponse -> {
                     List<Coin> coins = rateResponse.data;
-                    return coinEntityMapper.map(coins);
+                    List<CoinEntity> coinEntities = coinEntityMapper.map(coins);
+                    return coinEntities;
                 })
                 .doOnNext(coinEntities -> {
                     workerDatabase.open();
@@ -118,11 +130,5 @@ public class RatePresenterImpl implements RatePresenter {
                         }
                 );
         disposables.add(disposable);
-    }
-
-    @Override
-    public void onRateLongClick(String symbol) {
-        Timber.d("onRateLongClick: symbol = %s", symbol);
-        workHelper.startSyncRateWorker(symbol);
     }
 }

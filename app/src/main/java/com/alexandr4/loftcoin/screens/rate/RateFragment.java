@@ -70,7 +70,6 @@ public class RateFragment extends Fragment implements
         super.onCreate(savedInstanceState);
 
         Activity activity = getActivity();
-
         if (activity == null) {
             return;
         }

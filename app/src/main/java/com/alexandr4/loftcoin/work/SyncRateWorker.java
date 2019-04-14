@@ -6,7 +6,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 
 import com.alexandr4.loftcoin.App;
@@ -17,7 +16,6 @@ import com.alexandr4.loftcoin.data.db.model.CoinEntity;
 import com.alexandr4.loftcoin.data.db.model.CoinEntityMapper;
 import com.alexandr4.loftcoin.data.db.model.CoinEntityMapperImpl;
 import com.alexandr4.loftcoin.data.db.model.QuoteEntity;
-import com.alexandr4.loftcoin.data.prefs.Prefs;
 import com.alexandr4.loftcoin.screens.main.MainActivity;
 import com.alexandr4.loftcoin.utils.CurrencyFormatter;
 import com.alexandr4.loftcoin.utils.Fiat;
@@ -36,9 +34,7 @@ import timber.log.Timber;
 public class SyncRateWorker extends Worker {
 
     public static final String EXTRA_SYMBOL = "symbol";
-
     private static final String NOTIFICATION_CHANNEL_RATE_CHANGED = "RATE_CHANGED";
-    private static final int NOTIFICATION_ID_RATE_CHANGED = 10;
 
     public SyncRateWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -79,7 +75,6 @@ public class SyncRateWorker extends Worker {
 
     private void handleCoins(List<CoinEntity> newCoins) {
         App app = (App) getApplicationContext();
-        Prefs prefs = app.getPrefs();
         Database database = app.getDatabase();
         CurrencyFormatter formatter = new CurrencyFormatter();
 
@@ -99,7 +94,8 @@ public class SyncRateWorker extends Worker {
             if (newQuote.price != (oldQuote.price + 1)) {
 
                 Random random = new Random();
-                double priceDiff = newQuote.price - (oldQuote.price + random.nextInt(100));
+                int rangeRandomPrice = 100;
+                double priceDiff = newQuote.price - (oldQuote.price + random.nextInt(rangeRandomPrice));
 
                 String price = formatter.format(Math.abs(priceDiff), false);
                 String priceDiffString;
@@ -128,9 +124,10 @@ public class SyncRateWorker extends Worker {
     private void showRateChangedNotification(CoinEntity newCoin, String priceDiff) {
         Timber.d("showRateChangedNotification coin = %s, priceDiff == %s", newCoin.name, priceDiff);
 
+        int requestCode = 0;
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), requestCode, intent, PendingIntent.FLAG_ONE_SHOT);
 
         Notification notification = new NotificationCompat.Builder(getApplicationContext(), NOTIFICATION_CHANNEL_RATE_CHANGED)
                 .setSmallIcon(R.drawable.ic_notification)
@@ -138,7 +135,6 @@ public class SyncRateWorker extends Worker {
                 .setContentText(getApplicationContext().getString(R.string.notification_rate_changed_body, priceDiff))
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent)
-                .setLights(Color.RED, 200, 100)
                 .build();
 
         NotificationManager notificationManager =

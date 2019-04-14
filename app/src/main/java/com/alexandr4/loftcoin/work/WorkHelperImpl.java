@@ -10,10 +10,10 @@ import androidx.work.WorkManager;
 
 public class WorkHelperImpl implements WorkHelper {
 
-
     @Override
     public void startSyncRateWorker(String symbol) {
 
+        int requestRepeatInterval = 15;
 
         WorkManager workManager = WorkManager.getInstance();
         workManager.cancelAllWorkByTag(symbol);
@@ -27,7 +27,7 @@ public class WorkHelperImpl implements WorkHelper {
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
 
-        PeriodicWorkRequest request = new PeriodicWorkRequest.Builder(SyncRateWorker.class, 15, TimeUnit.MINUTES)
+        PeriodicWorkRequest request = new PeriodicWorkRequest.Builder(SyncRateWorker.class, requestRepeatInterval, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .addTag(symbol)
                 .setInputData(data)
